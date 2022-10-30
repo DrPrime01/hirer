@@ -1,11 +1,19 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useState } from "react";
 
 function Navbar() {
-  const navbar = document.querySelector("#navbar-default");
-  const handleBtnClick = (e) => {
+  const [toggleNavbar, setToggleNavbar] = useState(false);
+  const navBarstyles = {
+    navBarHidden: "hidden w-full md:block md:w-auto",
+    navBarDisplayed: "display w-full md:block md:w-auto"
+  }
+  const [navBarStyle, setNavBarStyle] = useState("hidden w-full md:block md:w-auto")
+
+  function handleBtnClick(e) {
+    setToggleNavbar(!toggleNavbar);
     e.preventDefault();
-    navbar.classList.toggle("hidden");
+    toggleNavbar ? setNavBarStyle(navBarstyles.navBarDisplayed) : setNavBarStyle(navBarstyles.navBarHidden);
   }
   return (
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
@@ -39,7 +47,7 @@ function Navbar() {
             ></path>
           </svg>
         </button>
-        <div className="hidden w-full md:block md:w-auto" id="navbar-default">
+        <div className={navBarStyle} id="navbar-default">
           <ul className="flex flex-col items-end p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             <li>
               <NavLink
@@ -80,7 +88,5 @@ function Navbar() {
     </nav>
   );
 }
-
-
 
 export default Navbar;
