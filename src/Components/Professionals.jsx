@@ -1,8 +1,8 @@
 import React from "react";
-import Navbar from "./Navbar";
 import { useEffect, useState } from "react";
 import Pagination from "./Pagination";
 import Loading from "./Loading";
+import { Link } from "react-router-dom"
 
 function Professionals() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -11,9 +11,10 @@ function Professionals() {
   const minNumberOfPages = 1;
 
   const [professionalDetails, setProfessionalDetails] = useState([]);
+  const [loadings, setLoadings] = useState(false);
 
-  const [loadings, setLoadings] = useState(true);
   useEffect(() => {
+    setLoadings(true);
     fetch(
       `https://randomuser.me/api/?page=${currentPage}&results=${numberOfResults}&seed=abc`
     )
@@ -21,11 +22,9 @@ function Professionals() {
       .then((data) => {
         const results = data.results;
         setProfessionalDetails(results);
-        setTimeout(() => {
-          setLoadings(false);
-        }, 1500);
+        setLoadings(false);
       });
-  }, []);
+  }, [currentPage]);
 
   const professionalCards = professionalDetails.map((profCard) => {
     return (
@@ -50,7 +49,7 @@ function Professionals() {
             <span className="font-bold">Email</span>: {profCard.email}
           </p>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-            <span className="font-bold">Location</span>:
+            <span className="font-bold">Location</span>: 
             {profCard.location.city + ", " + profCard.location.country}
           </p>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
@@ -58,8 +57,8 @@ function Professionals() {
             digital marketing expert with over 10 years of experience in
             startups. I specialize in UX design, strategy, and development.
           </p>
-          <a
-            href="#"
+          <Link
+            to={`/professionals/${profCard.login.uuid}`} state={profCard}
             className="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
           >
             View details
@@ -76,14 +75,13 @@ function Professionals() {
                 clipRule="evenodd"
               ></path>
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     );
   });
   return (
     <div>
-      <Navbar />
       <div id="professional-details">
         {loadings ? (
           <Loading type="spin" color="#be185d" />
@@ -103,7 +101,7 @@ function Professionals() {
           minNumberOfPages={minNumberOfPages}
           maxNumberOfPages={maxNumberOfPages}
           currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
+          change={setCurrentPage}
         />
       </div>
     </div>

@@ -27,7 +27,7 @@ function Body() {
 
   const [professionalDetails, setProfessionalDetails] = useState([]);
   useEffect(() => {
-    fetch("https://randomuser.me/api/?results=3")
+    fetch("https://randomuser.me/api/?results=3&seed=abc")
       .then((res) => res.json())
       .then((data) => {
         const results = data.results;
@@ -37,44 +37,44 @@ function Body() {
   const professionalSection = professionalDetails.map((professionals) => {
     return (
       <div
-        class="max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 m-4"
+      className="max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 m-4"
         key={professionals.login.uuid}
       >
         <a href="#" className="flex justify-center items-center mt-3">
           <img
-            class="rounded-full"
+            className="rounded-full"
             src={professionals.picture.large}
             alt="professionals"
           />
         </a>
-        <div class="p-5">
+        <div className="p-5">
           <a href="#">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
               {professionals.name.first + " " + professionals.name.last}
             </h5>
           </a>
-          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
             <span className="font-bold">Email</span>: {professionals.email}
           </p>
-          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
           <span className="font-bold">Location</span>:
             {professionals.location.city +
               ", " +
               professionals.location.country}
           </p>
-          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
           <span className="font-bold">Bio</span>: I am a content writer and digital marketing expert with over 10
             years of experience in startups. I specialize in UX design,
             strategy, and development.
           </p>
-          <a
-            href="#"
-            class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+          <Link
+            to={`/professionals/${professionals.login.uuid}`} state={professionals}
+            className="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
           >
             View details
             <svg
               aria-hidden="true"
-              class="ml-2 -mr-1 w-4 h-4"
+              className="ml-2 -mr-1 w-4 h-4"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
@@ -85,7 +85,7 @@ function Body() {
                 clip-rule="evenodd"
               ></path>
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     );
